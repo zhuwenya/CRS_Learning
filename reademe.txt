@@ -1,0 +1,2 @@
+The goal of the mf.py:
+    With the user-product matrix as the input, we learn the user latent vector and item latent vector, so as to recommend the items to the user.
