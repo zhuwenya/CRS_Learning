@@ -38,15 +38,9 @@ class recommend_agent(object):
         self.agent_response="请问有什么想喝的？"
         self.num=0
 
-    def get_zero_response(self):
-        self.agent_response="欢迎来到对话推荐系统,CRS向您推荐咖啡等其他饮品"
-        return self.agent_response
-    def get_first_response(self):
-        self.agent_response="现在开始体验！"  
-        return self.agent_response
 
-    def get_second_response(self):
-       
+
+    def get_first_response(self):       
         sent_agent,action,recommend_product,inquiry_feature=self.Agent.generate_sys_response(self.user_embedding,self.Item_Embedding)
         self.agent_response=sent_agent
         self.action=action
