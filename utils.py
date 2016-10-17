@@ -4,28 +4,28 @@ import math
 import numpy as np
 import pickle
 
-data_path="/home/ubuntu/collect_data/CRS_Learning/data/item_feature_matrix.pkl"
+data_path="/home/ubuntu/Collect_Data/CRS_Learning/data/item_feature_matrix.pkl"
 f=open(data_path,'r')
 item_feature_matrix=pickle.load(f)
 f.close()
 
-data_path="/home/ubuntu/collect_data/CRS_Learning/data/feature_index.pkl"
+data_path="/home/ubuntu/Collect_Data/CRS_Learning/data/feature_index.pkl"
 f=open(data_path,'r')
 feature_index=pickle.load(f)
 f.close()
 
-data_path="/home/ubuntu/collect_data/CRS_Learning/data/user_coffee_matrix_new.pkl"
+data_path="/home/ubuntu/Collect_Data/CRS_Learning/data/user_coffee_matrix_new.pkl"
 f=open(data_path,'r')
 user_coffee_matrix=pickle.load(f)
 f.close()
 (user_num,item_num)=user_coffee_matrix.shape
 
-data_path="/home/ubuntu/collect_data/CRS_Learning/data/user_embedding.pkl"
+data_path="/home/ubuntu/Collect_Data/CRS_Learning/data/user_embedding.pkl"
 f=open(data_path,'r')
 User_Embedding=pickle.load(f)
 f.close()
 (_,hidden_size)=User_Embedding.shape
-data_path="/home/ubuntu/collect_data/CRS_Learning/data/item_embedding.pkl"
+data_path="/home/ubuntu/Collect_Data/CRS_Learning/data/item_embedding.pkl"
 f=open(data_path,'r')
 Item_Embedding=pickle.load(f)
 f.close()

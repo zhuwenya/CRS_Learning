@@ -8,18 +8,18 @@ from utils import *
 import cPickle as pickle
 action_name={0:"product",1:"feature"}
 action_index=dict([(v, k) for k, v in action_name.iteritems()])
-data_path="/home/wenya/dialogue_system/code/recommendation/demo/data/index2product.pkl"
+data_path="/home/ubuntu/Collect_Data/CRS_Learning/data/index2product.pkl"
 f=open(data_path,'r')
 index2product=pickle.load(f)
 product2index=dict([(v, k) for k, v in index2product.iteritems()])
 
-data_path="/home/wenya/dialogue_system/code/recommendation/demo/data/feature_index.pkl"
+data_path="/home/ubuntu/Collect_Data/CRS_Learning/data/feature_index.pkl"
 f=open(data_path,'r')
 feature2index=pickle.load(f)
 index2feature=dict([(v, k) for k, v in feature2index.iteritems()])
 
 
-root="/home/wenya/dialogue_system/code/recommendation/demo/data/"
+root="/home/ubuntu/collect_data/CRS_Learning/data/"
 class SystemResponse(object):
     def __init__(self):
         self.action="product" # the action of the current step

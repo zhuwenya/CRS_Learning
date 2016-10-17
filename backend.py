@@ -1,13 +1,12 @@
 # -*- coding: UTF-8 -*-
 from __future__ import print_function
-import tensorflow as tf
 import jieba as jieba_rnn
 from collections import deque
 from system_response import *
 from user_detector import *
 import cPickle as pickle
 from utils import *
-data_path="/home/ubuntu/collect_data/CRS_Learning/data/"
+data_path="/home/ubuntu/Collect_Data/CRS_Learning/data/"
 
 
 
@@ -20,7 +19,7 @@ class recommend_agent(object):
     def __init__(self):
         print("系统初始化.....")
         jieba = jieba_rnn.Tokenizer()
-        jieba.load_userdict("/home/wenya/dialogue_system/code/recommendation/demo/data/dict.txt.coffe")
+        jieba.load_userdict("/home/ubuntu/Collect_Data/CRS_Learning/data/dict.txt.coffe")
         print("载入数据")
 
         User_Embedding=pickle.load(open(data_path+"user_embedding.pkl"))
@@ -37,8 +36,17 @@ class recommend_agent(object):
         print("当前进入drink推荐系统")
         print("开始体验对话推荐")
         self.agent_response="请问有什么想喝的？"
+        self.num=0
 
+    def get_zero_response(self):
+        self.agent_response="欢迎来到对话推荐系统,CRS向您推荐咖啡等其他饮品"
+        return self.agent_response
     def get_first_response(self):
+        self.agent_response="现在开始体验！"  
+        return self.agent_response
+
+    def get_second_response(self):
+       
         sent_agent,action,recommend_product,inquiry_feature=self.Agent.generate_sys_response(self.user_embedding,self.Item_Embedding)
         self.agent_response=sent_agent
         self.action=action
@@ -50,20 +58,23 @@ class recommend_agent(object):
         sent_user = in_msg
         if sent_user == "q":
             self.agent_response="欢迎再次光临。祝您开心每一天！"
+            return self.agent_response
         else:
-            user_feature,user_pre_feature,user_product,user_prefer_product=User.get_feedback(sent_user,action,recommend_product,inquiry_feature)
+            user_feature,user_pre_feature,user_product,user_prefer_product=self.User.get_feedback(sent_user,self.action,self.recommend_product,self.inquiry_feature)
             if len(user_product)!=0 and user_prefer_product=="like":
                 self.agent_response="好的。欢迎再次光临。祝您开心每一天！"
-            if len(user_feature)==0 and len(user_pre_feature)==0 and len(user_product)==0 and len(user_prefer_product)==0:
-                self.agent_response,self.action,self.recommend_product,self.inquiry_feature=self.Agent.generate_sys_response(self.user_embedding,self.Item_Embedding)
-            if len(user_feature)!=0:
-                flag=self.Agent.update_feature(user_feature,user_pre_feature)
-                if flag==1:
-                    self.agent_response="抱歉,实在找不到你要的饮品！"
-                else:
-                    pass
-            if len(user_product)!=0:
-                self.Agent.update_product(user_product,user_prefer_product)
+                return self.agent_response
+            else:
+                if len(user_feature)==0 and len(user_pre_feature)==0 and len(user_product)==0 and len(user_prefer_product)==0:
+                    self.agent_response,self.action,self.recommend_product,self.inquiry_feature=self.Agent.generate_sys_response(self.user_embedding,self.Item_Embedding)
+                    return self.agent_response
+                if len(user_feature)!=0:
+                    flag=self.Agent.update_feature(user_feature,user_pre_feature)
+                    if flag==1:
+                        self.agent_response="抱歉,实在找不到你要的饮品！"
+                        return self.agent_response
+                if len(user_product)!=0 and user_prefer_product=="dislike":
+                    self.Agent.update_product(user_product,user_prefer_product)
                 self.user_embedding=update_user_embedding(user_feature,user_pre_feature,user_product,user_prefer_product)
                 self.agent_response,self.action,self.recommend_product,self.inquiry_feature=self.Agent.generate_sys_response(self.user_embedding,self.Item_Embedding)
-        return self.agent_response
+                return self.agent_response
