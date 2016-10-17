@@ -7,7 +7,7 @@ from system_response import *
 from user_detector import *
 import cPickle as pickle
 from utils import *
-data_path="/home/wenya/dialogue_system/code/recommendation/demo/data/"
+data_path="/home/ubuntu/collect_data/CRS_Learning/data/"
 
 
 
