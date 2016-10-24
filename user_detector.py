@@ -7,8 +7,8 @@ import numpy as np
 import utils
 from utils import *
 
-root="/home/ubuntu/Collect_Data/CRS_Learning/data/"
-data_path="/home/ubuntu/Collect_Data/CRS_Learning/data/feature_index.pkl"
+root="/home/ubuntu/Collect_Data/CRS_Learning/CRS_Learning/data/"
+data_path="/home/ubuntu/Collect_Data/CRS_Learning/CRS_Learning/data/feature_index.pkl"
 f=open(data_path,'r')
 feature2index=pickle.load(f)
 f.close()

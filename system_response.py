@@ -8,18 +8,19 @@ from utils import *
 import cPickle as pickle
 action_name={0:"product",1:"feature"}
 action_index=dict([(v, k) for k, v in action_name.iteritems()])
-data_path="/home/ubuntu/Collect_Data/CRS_Learning/data/index2product.pkl"
+data_path="/home/ubuntu/Collect_Data/CRS_Learning/CRS_Learning/data/index2product.pkl"
 f=open(data_path,'r')
 index2product=pickle.load(f)
 product2index=dict([(v, k) for k, v in index2product.iteritems()])
 
-data_path="/home/ubuntu/Collect_Data/CRS_Learning/data/feature_index.pkl"
+data_path="/home/ubuntu/Collect_Data/CRS_Learning/CRS_Learning/data/feature_index.pkl"
 f=open(data_path,'r')
 feature2index=pickle.load(f)
 index2feature=dict([(v, k) for k, v in feature2index.iteritems()])
 
 
-root="/home/ubuntu/collect_data/CRS_Learning/data/"
+root="/home/ubuntu/Collect_Data/CRS_Learning/CRS_Learning/data/"
+
 class SystemResponse(object):
     def __init__(self):
         self.action="product" # the action of the current step
@@ -130,12 +131,12 @@ class SystemResponse(object):
         if dislike=="dislike":
             products=product_match_feature(feature)
             if len(products)!=0:
-                product=[i for i in self.product if i not in products]
+                Product=[i for i in self.product if i not in products]
         else:
-            product=product_match_feature(feature)
-        if len(product)==0:
+            Product=product_match_feature(feature)
+        if len(Product)==0:
             flag=1
-        self.product=product
+        self.product=Product
         return flag
 
 
@@ -199,7 +200,7 @@ class SystemResponse(object):
 
     def sys_utter_template(self,product):
         if len(self.Action_Set)!=0 and self.Action_Set[-1]==action_index["feature"]:
-            templates=[product+"?","要不要"+product+"?",product+"满足你的要","好的，"+product+" 可能是您想要的","好的,向您推荐"+product]
+            templates=[product+"?","要不要"+product+"?",product+"满足你的要求","好的，"+product+" 可能是您想要的","好的,向您推荐"+product]
             np.random.shuffle(templates)
         else:
             templates=[product+"?","要不要"+product+"?",product+"很不错呢","好的，"+product+"可能是您想要的","好的,向您推荐"+product]

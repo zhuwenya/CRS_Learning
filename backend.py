@@ -46,29 +46,30 @@ class recommend_agent(object):
         self.action=action
         self.recommend_product=recommend_product
         self.inquiry_feature=inquiry_feature
-        return self.agent_response
+        return self.agent_response,self.action,self.recommend_product,self.inquiry_feature
 
     def get_response(self,in_msg):
         sent_user = in_msg
+        sent_user=[i for i in jieba.cut(sent_user)]
         if sent_user == "q":
             self.agent_response="欢迎再次光临。祝您开心每一天！"
-            return self.agent_response
+            return self.agent_response,None,None,None
         else:
             user_feature,user_pre_feature,user_product,user_prefer_product=self.User.get_feedback(sent_user,self.action,self.recommend_product,self.inquiry_feature)
             if len(user_product)!=0 and user_prefer_product=="like":
                 self.agent_response="好的。欢迎再次光临。祝您开心每一天！"
-                return self.agent_response
+                return self.agent_response,None,None,None
             else:
                 if len(user_feature)==0 and len(user_pre_feature)==0 and len(user_product)==0 and len(user_prefer_product)==0:
                     self.agent_response,self.action,self.recommend_product,self.inquiry_feature=self.Agent.generate_sys_response(self.user_embedding,self.Item_Embedding)
-                    return self.agent_response
+                    return self.agent_response,self.action,self.recommend_product,self.inquiry_feature
                 if len(user_feature)!=0:
                     flag=self.Agent.update_feature(user_feature,user_pre_feature)
                     if flag==1:
                         self.agent_response="抱歉,实在找不到你要的饮品！"
-                        return self.agent_response
+                        return self.agent_response,None,None,None
                 if len(user_product)!=0 and user_prefer_product=="dislike":
                     self.Agent.update_product(user_product,user_prefer_product)
                 self.user_embedding=update_user_embedding(user_feature,user_pre_feature,user_product,user_prefer_product)
                 self.agent_response,self.action,self.recommend_product,self.inquiry_feature=self.Agent.generate_sys_response(self.user_embedding,self.Item_Embedding)
-                return self.agent_response
+                return self.agent_response,self.action,self.recommend_product,self.inquiry_feature
